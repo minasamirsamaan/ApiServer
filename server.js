@@ -5,6 +5,10 @@ var crypto = require('crypto');
 var ecdh = crypto.createECDH('secp256k1');
 var clientPublicKey;
 var sharedKey;
+ecdh.generateKeys();
+var publicKey = ecdh.getPublicKey(null,'compressed');
+var privateKey = ecdh.getPrivateKey(null, 'compressed');
+
 //ENCRYPTION-----------------------------------------------------------------------------------------------------------
 var aesjs = require('aes-js');
 var aesCtr;
@@ -14,13 +18,15 @@ app.get('/', function(req, res) {
 })
 		
 app.get('/publicKey', function(req, res) {
-ecdh.generateKeys();
-var publicKey = ecdh.getPublicKey(null,'compressed');
-var privateKey = ecdh.getPrivateKey(null, 'compressed');
+
   res.send(publicKey)
 })
+app.get('/privateKey', function(req, res) {
 
-app.get('/sharedKey/:public', function(req, res) {  console.log(req.params.public); res.send(ecdh.computeSecret(req.params.public));
+  res.send(privateKey)
+})
+
+app.get('/sharedKey/:public', function(req, res) {   ecdh.computeSecret(req.params.public));
 })
  
 app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
