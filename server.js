@@ -23,4 +23,4 @@ app.get('/sharedKey', function(req, res) {
   res.json(publicKey)
 })
  
-app.listen(3000)
+
