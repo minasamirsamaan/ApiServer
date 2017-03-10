@@ -17,7 +17,7 @@ app.get('/', function(req, res) {
 })
 		
 app.get('/publicKey', function(req, res) {
-	ecd= crypto.createECDH('secp256k1');
+	ecdh= crypto.createECDH('secp256k1');
 	ecdh.generateKeys();
 publicKey = ecdh.getPublicKey(null,'compressed');
 privateKey = ecdh.getPrivateKey(null, 'compressed');
