@@ -29,7 +29,9 @@ app.get('/privateKey', function(req, res) {
 app.get('/sharedKey/:public', function(req, res) { 
 var buf = new Buffer.from(JSON.parse(req.params.public));
 
-	console.log(buf);  sharedKey=ecdh.computeSecret(buf);   console.log(sharedKey);})
+	console.log(buf);  sharedKey=ecdh.computeSecret(buf);   console.log(sharedKey);
+res.json(sharedKey);
+})
 
  
 app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
