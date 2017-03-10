@@ -23,4 +23,4 @@ app.get('/sharedKey', function(req, res) {
   res.json(publicKey)
 })
  
-
+app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
