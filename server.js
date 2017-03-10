@@ -2,7 +2,7 @@ var express = require('express')
 var app = express()
 //---------------------------------------------------------------------------------------------------------------------
 var crypto = require('crypto');
-var ecdh = crypto.createECDH('secp256k1');
+var ecdh;
 var clientPublicKey;
 var sharedKey;
 var publicKey;
@@ -17,6 +17,7 @@ app.get('/', function(req, res) {
 })
 		
 app.get('/publicKey', function(req, res) {
+	ecd= crypto.createECDH('secp256k1');
 	ecdh.generateKeys();
 publicKey = ecdh.getPublicKey(null,'compressed');
 privateKey = ecdh.getPrivateKey(null, 'compressed');
