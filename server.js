@@ -13,6 +13,9 @@ var sharedKey;
 var aesjs = require('aes-js');
 var aesCtr;
 //---------------------------------------------------------------------------------------------------------------------
+app.get('/', function(req, res) {
+  res.json("publicKey")
+})
 app.get('/publicKey', function(req, res) {
   res.json(publicKey)
 })
