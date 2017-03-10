@@ -26,8 +26,8 @@ app.get('/privateKey', function(req, res) {
   res.send(privateKey)
 })
 
-app.get('/sharedKey/:public', function(req, res) {   ecdh.computeSecret(req.params.public));
-})
+app.get('/sharedKey/:public', function(req, res) {   ecdh.computeSecret(req.params.public)})
+
  
 app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
 
