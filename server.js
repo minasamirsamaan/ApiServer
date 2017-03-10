@@ -20,7 +20,7 @@ var privateKey = ecdh.getPrivateKey(null, 'compressed');
   res.send(publicKey)
 })
 
-app.get('/sharedKey/:public', function(req, res) {   res.send(ecdh.computeSecret(req.params.public));
+app.get('/sharedKey/:public', function(req, res) {  console.log(req.params.public); res.send(ecdh.computeSecret(req.params.public));
 })
  
 app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
