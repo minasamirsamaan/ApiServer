@@ -26,14 +26,14 @@ privateKey = ecdh.getPrivateKey(null, 'compressed');
 })
 app.get('/privateKey', function(req, res) {
 
-  res.send(privateKey)
+  res.json(privateKey)
 })
 
 app.get('/sharedKey/:public', function(req, res) { 
 var buf = new Buffer.from(JSON.parse(req.params.public));
 
 	console.log(buf);  sharedKey=ecdh.computeSecret(buf);   console.log(sharedKey);
-res.json(sharedKey);
+res.send(sharedKey);
 })
 
  
