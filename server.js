@@ -45,7 +45,7 @@ var buf=JSON.parse(req.params.public);
 var decryptedBytes = aesCtr.decrypt(arr);
 var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 console.log(decryptedText+"lllllllllllllllllllll")
-res.json(aesjs.utils.utf8.fromBytes(decryptedText));
+res.json(decryptedText);
 
 })
 
