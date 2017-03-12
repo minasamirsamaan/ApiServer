@@ -43,7 +43,8 @@ var buf=JSON.parse(req.params.public);
 		    arr[p] = buf[p];
 		}
 var decryptedBytes = aesCtr.decrypt(arr);
-res.write(aesjs.utils.utf8.fromBytes(decryptedBytes));
+var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+res.json(aesjs.utils.utf8.fromBytes(decryptedText));
 
 })
 
