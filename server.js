@@ -38,7 +38,11 @@ var buf = new Buffer.from(JSON.parse(req.params.public));
 })
 app.get('/decrypt/:public', function(req, res) {
 var buf=JSON.parse(req.params.public);
-var decryptedBytes = aesCtr.decrypt(buf);
+	var arr = []; 
+		for(var p in Object.getOwnPropertyNames(buf)) {
+		    arr[p] = buf[p];
+		}
+var decryptedBytes = aesCtr.decrypt(arr);
 res.write(aesjs.utils.utf8.fromBytes(decryptedBytes));
 
 })
