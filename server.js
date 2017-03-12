@@ -32,9 +32,17 @@ app.get('/privateKey', function(req, res) {
 app.get('/sharedKey/:public', function(req, res) { 
 var buf = new Buffer.from(JSON.parse(req.params.public));
 
-	console.log(buf);  sharedKey=ecdh.computeSecret(buf);   console.log(sharedKey);
-res.send(sharedKey);
+	console.log(buf);  sharedKey=ecdh.computeSecret(buf);   
+	aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
+    res.json(sharedKey);
 })
+app.get('/decrypt/:encrypted', function(req, res) {
+var buf = new Buffer.from(JSON.parse(req.params.encrypted));
+var decryptedBytes = aesCtr.decrypt(buf);
+res.write(aesjs.utils.utf8.fromBytes(decryptedBytes));
+
+})
+
 
  
 app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
