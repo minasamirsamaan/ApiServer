@@ -26,7 +26,7 @@ privateKey = ecdh.getPrivateKey(null, 'compressed');
 })
 app.get('/privateKey', function(req, res) {
 
-  res.json(privateKey)
+  res.send(privateKey)
 })
 
 app.get('/sharedKey/:public', function(req, res) { 
