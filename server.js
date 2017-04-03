@@ -31,16 +31,13 @@ app.get('/privateKey', function(req, res) {
 
 app.get('/sharedKey/:public', function(req, res) {
 var buf = new Buffer.from(JSON.parse(req.params.public));
+
 	console.log(buf);
   sharedKey=ecdh.computeSecret(buf);
 	aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
     res.json(sharedKey);
 })
-app.get('/decrypt/:bytes/:shared', function(req, res) {
-  console.console.log(req.params.shared);
-  var sharedKeyParam = new Buffer.from(JSON.parse(req.params.shared));
-  aesCtr = new aesjs.ModeOfOperation.ctr(sharedKeyParam);
-
+app.get('/decrypt/:bytes', function(req, res) {
 var buf=JSON.parse(req.params.bytes);
 	var arr = [];
 		for(var p in Object.getOwnPropertyNames(buf)) {
