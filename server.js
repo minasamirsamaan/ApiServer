@@ -34,7 +34,7 @@ var buf = new Buffer.from(JSON.parse(req.params.public));
 
 	console.log(buf);
   sharedKey=ecdh.computeSecret(buf);
-	aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
+	//aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
     res.json(sharedKey);
 })
 app.get('/setSharedKey/:shared', function(req, res) {
