@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
   res.write("I am Mina's Api ECDH Server");
   res.end();
 })
-		
+
 app.get('/publicKey', function(req, res) {
 	ecdh= crypto.createECDH('secp256k1');
 	ecdh.generateKeys();
@@ -29,16 +29,17 @@ app.get('/privateKey', function(req, res) {
   res.json(privateKey)
 })
 
-app.get('/sharedKey/:public', function(req, res) { 
+app.get('/sharedKey/:public', function(req, res) {
 var buf = new Buffer.from(JSON.parse(req.params.public));
 
-	console.log(buf);  sharedKey=ecdh.computeSecret(buf);   
+	console.log(buf);
+  sharedKey=ecdh.computeSecret(buf);
 	aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
     res.json(sharedKey);
 })
-app.get('/decrypt/:public', function(req, res) {
-var buf=JSON.parse(req.params.public);
-	var arr = []; 
+app.get('/decrypt/:bytes/:shared', function(req, res) {
+var buf=JSON.parse(req.params.bytes);
+	var arr = [];
 		for(var p in Object.getOwnPropertyNames(buf)) {
 		    arr[p] = buf[p];
 		}
@@ -50,6 +51,5 @@ res.json(decryptedText);
 })
 
 
- 
-app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
 
+app.listen(process.env.PORT ||8080, ()=>console.log("ok"))
