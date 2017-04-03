@@ -38,8 +38,8 @@ var buf = new Buffer.from(JSON.parse(req.params.public));
     res.json(sharedKey);
 })
 app.get('/setSharedKey/:shared', function(req, res) {
-var buf = new Buffer.from(JSON.parse(req.params.sharedKey));
-	aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
+var buf = new Buffer.from(JSON.parse(req.params.shared));
+	aesCtr = new aesjs.ModeOfOperation.ctr(buf);
     res.json("");
 })
 app.get('/decrypt/:bytes', function(req, res) {
