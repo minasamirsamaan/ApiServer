@@ -37,6 +37,11 @@ var buf = new Buffer.from(JSON.parse(req.params.public));
 	aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
     res.json(sharedKey);
 })
+app.get('/setSharedKey/:shared', function(req, res) {
+var buf = new Buffer.from(JSON.parse(req.params.sharedKey));
+	aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
+    res.json("");
+})
 app.get('/decrypt/:bytes', function(req, res) {
 var buf=JSON.parse(req.params.bytes);
 	var arr = [];
