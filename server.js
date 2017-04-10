@@ -43,7 +43,7 @@ privateKey = ecdh.getPrivateKey(null, 'compressed');
 })
 app.get('/privateKey', function(req, res) {
 
-  res.json(privateKey)
+  res.send(JSON.stringify(privateKey));
 })
 
 app.get('/sharedKey/:public', function(req, res) {
@@ -52,7 +52,7 @@ var buf = new Buffer.from(JSON.parse(req.params.public));
 	console.log(buf);
   sharedKey=ecdh.computeSecret(buf);
 	//aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
-    res.json(sharedKey);
+    res.send(JSON.stringify(sharedKey));
 })
 app.get('/setSharedKey/:shared', function(req, res) {
 var buf = new Buffer.from(JSON.parse(req.params.shared));
