@@ -42,7 +42,7 @@ app.get('/register/:password', function(req, res) {
   var passwordData = sha512(req.params.password, salt);
   res.json({
     salt:salt,
-    passwordHash: passwordData.passwordHash,
+    hash: passwordData.passwordHash,
     publicKey: publicKey,
     privateKey: privateKey
   });
