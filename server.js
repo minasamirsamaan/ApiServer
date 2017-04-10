@@ -41,6 +41,17 @@ privateKey = ecdh.getPrivateKey(null, 'compressed');
 
   res.send(JSON.stringify(publicKey));
 })
+app.get('/keyPair', function(req, res) {
+	ecdh= crypto.createECDH('secp256k1');
+	ecdh.generateKeys();
+publicKey = ecdh.getPublicKey(null,'compressed');
+privateKey = ecdh.getPrivateKey(null, 'compressed');
+
+  res.json({
+    publicKey: publicKey,
+    privateKey: privateKey
+  });
+})
 app.get('/privateKey', function(req, res) {
 
   res.send(JSON.stringify(privateKey));
