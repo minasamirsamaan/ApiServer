@@ -33,13 +33,16 @@ app.get('/', function(req, res) {
   res.end();
 })
 //key_exchange_and_AES-------------------------------------------------------------------------------------------------------------
-app.get('/register', function(req, res) {
+app.get('/register/:password', function(req, res) {
 	ecdh= crypto.createECDH('secp256k1');
 	ecdh.generateKeys();
   publicKey = ecdh.getPublicKey(null,'compressed');
   privateKey = ecdh.getPrivateKey(null, 'compressed');
+  var salt =salt:genRandomString(16);
+  var passwordData = sha512(req.params.password, salt);
   res.json({
-    salt:genRandomString(16),
+    salt:salt
+    passwordHash: passwordData.passwordHash;
     publicKey: publicKey,
     privateKey: privateKey
   });
