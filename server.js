@@ -41,13 +41,14 @@ privateKey = ecdh.getPrivateKey(null, 'compressed');
 
   res.send(JSON.stringify(publicKey));
 })
-app.get('/keyPair', function(req, res) {
+app.get('/register', function(req, res) {
 	ecdh= crypto.createECDH('secp256k1');
 	ecdh.generateKeys();
-publicKey = ecdh.getPublicKey(null,'compressed');
-privateKey = ecdh.getPrivateKey(null, 'compressed');
+  publicKey = ecdh.getPublicKey(null,'compressed');
+  privateKey = ecdh.getPrivateKey(null, 'compressed');
 
   res.json({
+    salt:genRandomString(16),
     publicKey: publicKey,
     privateKey: privateKey
   });
