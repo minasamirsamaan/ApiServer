@@ -39,7 +39,7 @@ app.get('/publicKey', function(req, res) {
 publicKey = ecdh.getPublicKey(null,'compressed');
 privateKey = ecdh.getPrivateKey(null, 'compressed');
 
-  res.send(publicKey);
+  res.send(JSON.stringify(publicKey));
 })
 app.get('/privateKey', function(req, res) {
 
