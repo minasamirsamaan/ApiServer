@@ -33,6 +33,27 @@ app.get('/', function(req, res) {
   res.end();
 })
 //key_exchange_and_AES-------------------------------------------------------------------------------------------------------------
+app.get('/register', function(req, res) {
+	ecdh= crypto.createECDH('secp256k1');
+	ecdh.generateKeys();
+  publicKey = ecdh.getPublicKey(null,'compressed');
+  privateKey = ecdh.getPrivateKey(null, 'compressed');
+  res.json({
+    salt:genRandomString(16),
+    publicKey: publicKey,
+    privateKey: privateKey
+  });
+})
+
+app.get('/sharedKey/:severPublic/:userPrivate', function(req, res) {
+  var serverkey = new Buffer.from(JSON.parse(req.params.serverPublic));
+  ecdh.setPrivateKey(new Buffer.from(JSON.parse(req.params.userPrivate)));
+
+  sharedKey=ecdh.computeSecret(serverkey);
+	//aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
+    res.send(JSON.stringify(sharedKey));
+})
+
 app.get('/publicKey', function(req, res) {
 	ecdh= crypto.createECDH('secp256k1');
 	ecdh.generateKeys();
@@ -41,31 +62,20 @@ privateKey = ecdh.getPrivateKey(null, 'compressed');
 
   res.send(JSON.stringify(publicKey));
 })
-app.get('/register', function(req, res) {
-	ecdh= crypto.createECDH('secp256k1');
-	ecdh.generateKeys();
-  publicKey = ecdh.getPublicKey(null,'compressed');
-  privateKey = ecdh.getPrivateKey(null, 'compressed');
 
-  res.json({
-    salt:genRandomString(16),
-    publicKey: publicKey,
-    privateKey: privateKey
-  });
-})
 app.get('/privateKey', function(req, res) {
 
   res.send(JSON.stringify(privateKey));
 })
 
-app.get('/sharedKey/:public', function(req, res) {
-var buf = new Buffer.from(JSON.parse(req.params.public));
-
-	console.log(buf);
-  sharedKey=ecdh.computeSecret(buf);
-	//aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
-    res.send(JSON.stringify(sharedKey));
-})
+// app.get('/sharedKey/:public', function(req, res) {
+// var buf = new Buffer.from(JSON.parse(req.params.public));
+//
+// 	console.log(buf);
+//   sharedKey=ecdh.computeSecret(buf);
+// 	//aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
+//     res.send(JSON.stringify(sharedKey));
+// })
 app.get('/setSharedKey/:shared', function(req, res) {
 var buf = new Buffer.from(JSON.parse(req.params.shared));
 	aesCtr = new aesjs.ModeOfOperation.ctr(buf);
