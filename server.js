@@ -121,7 +121,8 @@ app.get('/salt', function(req, res) {
 
   res.send(genRandomString(16));
 })
-app.get('/time',fuction(req, res){
+
+app.get('/time', function(req, res) {
 var timeStamp = Date.now();
 res.json(timeStamp);
 
