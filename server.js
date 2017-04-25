@@ -11,6 +11,8 @@ var privateKey;
 var aesjs = require('aes-js');
 var aesCtr;
 //---------------------------------------------------------------------------------------------------------------------
+var cryptico = require('cryptico');
+//--------------------------------------------------------------------------------------------------------------
 var genRandomString = function(length){
     return crypto.randomBytes(Math.ceil(length/2))
             .toString('hex') /** convert to hexadecimal format */
@@ -36,15 +38,19 @@ app.get('/', function(req, res) {
 app.get('/register/:password', function(req, res) {
 	ecdh= crypto.createECDH('secp256k1');
 	ecdh.generateKeys();
-  publicKey = ecdh.getPublicKey(null,'compressed');
-  privateKey = ecdh.getPrivateKey(null, 'compressed');
+  AesPublicKey = ecdh.getPublicKey(null,'compressed');
+  AesPrivateKey = ecdh.getPrivateKey(null, 'compressed');
   var salt =genRandomString(16);
   var passwordData = sha512(req.params.password, salt);
+  var RsaPrivate = cryptico.generateRSAKey(req.params.password, 1024);
+  var RsaPublic = cryptico.publicKeyString(rsaKeys);
   res.json({
     salt:salt,
     hash: passwordData.passwordHash,
-    publicKey: publicKey,
-    privateKey: privateKey
+    AesPublicKey: AesPublicKey,
+    AesPrivateKey: AesPrivateKey,
+    RsaPublic: RsaPublic,
+    RsaPrivate: RsaPrivate
   });
 })
 
@@ -114,6 +120,11 @@ res.send(JSON.stringify(encryptedBytes));
 app.get('/salt', function(req, res) {
 
   res.send(genRandomString(16));
+})
+app.get('/time',fuction(req, res){
+var timeStamp = Date.now();
+res.json(timeStamp);
+
 })
 
 app.get('/passwordHash/:salt/:password', function(req, res) {
