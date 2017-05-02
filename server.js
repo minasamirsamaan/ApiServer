@@ -110,7 +110,7 @@ app.get('/encrypt/:shared/:text', function(req, res) {
   aesCtr = new aesjs.ModeOfOperation.ctr(buf);
   var text =req.params.text;
   console.log(req.params.text + typeof req.params.text);
-var textBytes = aesjs.utils.utf8.toBytes(text);
+var textBytes = aesjs.utils.utf8.toBytes(text.toString());
 var encryptedBytes = aesCtr.encrypt(textBytes);
 console.log('the sharedKey before encryption ::: ' +sharedKey.toString('hex'));
 console.log('these are the textBytes ::: ' +textBytes);
