@@ -55,7 +55,7 @@ app.get('/register/:password', function(req, res) {
   });
 })
 
-app.get('/sharedKey/:severPublic/:userPrivate', function(req, res) {
+app.get('/sharedKey/:serverPublic/:userPrivate', function(req, res) {
 
   console.log(req.params.serverPublic);
 
