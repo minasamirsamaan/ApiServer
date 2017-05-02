@@ -51,7 +51,7 @@ app.get('/exchange/:serverAesPublic', function(req, res) {
 
 })
 
-app.get('/register/:password', function(req, res) {
+app.get('/register/:password/:serverRsaPublic', function(req, res) {
   var salt = genRandomString(16);
   var passwordData = sha512(req.params.password, salt);
 
@@ -61,14 +61,14 @@ app.get('/register/:password', function(req, res) {
   });
 })
 
-app.get('/sharedKey/:serverPublic/:userPrivate', function(req, res) {
-  var serverPublic = new Buffer.from(JSON.parse(req.params.serverPublic));
-  var userPrivate = new Buffer.from(JSON.parse(req.params.userPrivate));
-  console.log(userPrivate);
-  ecdh.setPrivateKey(userPrivate);
-  sharedKey=ecdh.computeSecret(serverPublic);
-  res.send(JSON.stringify(sharedKey));
-})
+// app.get('/sharedKey/:serverPublic/:userPrivate', function(req, res) {
+//   var serverPublic = new Buffer.from(JSON.parse(req.params.serverPublic));
+//   var userPrivate = new Buffer.from(JSON.parse(req.params.userPrivate));
+//   console.log(userPrivate);
+//   ecdh.setPrivateKey(userPrivate);
+//   sharedKey=ecdh.computeSecret(serverPublic);
+//   res.send(JSON.stringify(sharedKey));
+// })
 
 app.get('/publicKey', function(req, res) {
 	ecdh= crypto.createECDH('secp256k1');
@@ -90,7 +90,9 @@ app.get('/setSharedKey/:shared', function(req, res) {
   res.send("Shared key Ready");
 })
 
-app.get('/decrypt/:bytes', function(req, res) {
+app.get('/decrypt/:shared/:bytes', function(req, res) {
+  var sharedKey = new Buffer.from(JSON.parse(req.params.shared));
+  aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
   var buf=JSON.parse(req.params.bytes);
   var arr = [];
   for(var p in Object.getOwnPropertyNames(buf)) {
@@ -106,6 +108,7 @@ app.get('/decrypt/:bytes', function(req, res) {
 app.get('/encrypt/:shared/:text', function(req, res) {
   var buf = new Buffer.from(JSON.parse(req.params.shared));
   aesCtr = new aesjs.ModeOfOperation.ctr(buf);
+  console.log(req.params.text + typeof req.params.text);
 var textBytes = aesjs.utils.utf8.toBytes(req.params.text);
 var encryptedBytes = aesCtr.encrypt(textBytes);
 console.log('the sharedKey before encryption ::: ' +sharedKey.toString('hex'));
