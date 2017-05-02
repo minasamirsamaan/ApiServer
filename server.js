@@ -56,8 +56,8 @@ app.get('/register/:password', function(req, res) {
 })
 
 app.get('/sharedKey/:severPublic/:userPrivate', function(req, res) {
-  var serverPublic = new Buffer.from(JSON.parse(req.params.serverPublic));
-  console.log(serverkey);
+
+  console.log(req.params.serverPublic);
 
   res.send("ji");
 })
