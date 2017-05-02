@@ -36,22 +36,27 @@ app.get('/', function(req, res) {
   res.end();
 })
 
-app.get('/register/:password', function(req, res) {
-	ecdh= crypto.createECDH('secp256k1');
-	ecdh.generateKeys();
+app.get('/exchange/:serverAesPublic', function(req, res) {
+  ecdh= crypto.createECDH('secp256k1');
+  ecdh.generateKeys();
   var AesPublicKey = ecdh.getPublicKey(null,'compressed');
   var AesPrivateKey = ecdh.getPrivateKey(null, 'compressed');
+  var AesSharedKey = ecdh.computeSecret(req.params.serverAesPublic);
+  res.json({
+    AesPublicKey : AesPublicKey,
+    AesPrivateKey: AesPrivateKey,
+    AesSharedKey:AesSharedKey
+  });
+
+})
+
+app.get('/register/:password', function(req, res) {
   var salt = genRandomString(16);
   var passwordData = sha512(req.params.password, salt);
-  var RsaPrivate = cryptico.generateRSAKey(req.params.password, 1024);
-  var RsaPublic = cryptico.publicKeyString(rsaKeys);
+
   res.json({
     salt: salt,
     hash: passwordData.passwordHash,
-    AesPublicKey: AesPublicKey,
-    AesPrivateKey: AesPrivateKey,
-    RsaPublic: RsaPublic,
-    RsaPrivate: RsaPrivate
   });
 })
 
