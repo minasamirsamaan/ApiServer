@@ -41,7 +41,8 @@ app.get('/exchange/:serverAesPublic', function(req, res) {
   ecdh.generateKeys();
   var AesPublicKey = ecdh.getPublicKey(null,'compressed');
   var AesPrivateKey = ecdh.getPrivateKey(null, 'compressed');
-  var AesSharedKey = ecdh.computeSecret(req.params.serverAesPublic);
+  var serverAesPublic = new Buffer.from(JSON.parse(req.params.serverAesPublic));
+  var AesSharedKey = ecdh.computeSecret(serverAesPublic);
   res.json({
     AesPublicKey : AesPublicKey,
     AesPrivateKey: AesPrivateKey,
