@@ -44,7 +44,7 @@ app.get('/register/:password', function(req, res) {
   var salt = genRandomString(16);
   var passwordData = sha512(req.params.password, salt);
   var RsaPrivate = cryptico.generateRSAKey(req.params.password, 1024);
-  var RsaPublic = cryptico.publicKeyString(rsaKeys);
+  var RsaPublic = cryptico.publicKeyString(RsaPrivate);
   res.json({
     salt: salt,
     hash: passwordData.passwordHash,
