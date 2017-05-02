@@ -95,7 +95,9 @@ app.get('/decrypt/:bytes', function(req, res) {
   res.send(decryptedText);
 })
 
-app.get('/encrypt/:text', function(req, res) {
+app.get('/encrypt/:shared/:text', function(req, res) {
+  var buf = new Buffer.from(JSON.parse(req.params.shared));
+  aesCtr = new aesjs.ModeOfOperation.ctr(buf);
 var textBytes = aesjs.utils.utf8.toBytes(req.params.text);
 var encryptedBytes = aesCtr.encrypt(textBytes);
 console.log('the sharedKey before encryption ::: ' +sharedKey.toString('hex'));
