@@ -44,7 +44,7 @@ app.get('/register/:password', function(req, res) {
   var salt = genRandomString(16);
   var passwordData = sha512(req.params.password, salt);
   var RsaPrivate = cryptico.generateRSAKey(req.params.password, 1024);
-  var RsaPublic = cryptico.publicKeyString(RsaPrivate);
+  var RsaPublic = cryptico.publicKeyString(rsaKeys);
   res.json({
     salt: salt,
     hash: passwordData.passwordHash,
@@ -56,10 +56,11 @@ app.get('/register/:password', function(req, res) {
 })
 
 app.get('/sharedKey/:serverPublic/:userPrivate', function(req, res) {
-
-  console.log(req.params.serverPublic);
-
-  res.send("ji");
+  var serverPublic = new Buffer.from(JSON.parse(req.params.serverPublic));
+  var userPrivate = new Buffer.from(JSON.parse(req.params.userPrivate));
+  ecdh.setPrivateKey(userPrivate);
+  sharedKey=ecdh.computeSecret(serverPublic);
+  res.send(JSON.stringify(sharedKey));
 })
 
 app.get('/publicKey', function(req, res) {
