@@ -61,14 +61,6 @@ app.get('/register/:password/:serverRsaPublic', function(req, res) {
   });
 })
 
-// app.get('/sharedKey/:serverPublic/:userPrivate', function(req, res) {
-//   var serverPublic = new Buffer.from(JSON.parse(req.params.serverPublic));
-//   var userPrivate = new Buffer.from(JSON.parse(req.params.userPrivate));
-//   console.log(userPrivate);
-//   ecdh.setPrivateKey(userPrivate);
-//   sharedKey=ecdh.computeSecret(serverPublic);
-//   res.send(JSON.stringify(sharedKey));
-// })
 
 app.get('/publicKey', function(req, res) {
 	ecdh= crypto.createECDH('secp256k1');
@@ -82,15 +74,7 @@ app.get('/privateKey', function(req, res) {
   res.send(JSON.stringify(privateKey));
 })
 
-//        ****for encryption and decryption you should use set sharedkey route first****
-
-app.get('/setSharedKey/:shared', function(req, res) {
-  var buf = new Buffer.from(JSON.parse(req.params.shared));
-  aesCtr = new aesjs.ModeOfOperation.ctr(buf);
-  res.send("Shared key Ready");
-})
-
-app.get('/decrypt/:shared/:bytes', function(req, res) {
+app.get('/AesDecrypt/:shared/:bytes', function(req, res) {
   var sharedKey = new Buffer.from(JSON.parse(req.params.shared));
   aesCtr = new aesjs.ModeOfOperation.ctr(sharedKey);
   var buf=JSON.parse(req.params.bytes);
@@ -105,7 +89,7 @@ app.get('/decrypt/:shared/:bytes', function(req, res) {
   res.send(decryptedText);
 })
 
-app.get('/encrypt/:shared/:text', function(req, res) {
+app.get('/AesEncrypt/:shared/:text', function(req, res) {
   var buf = new Buffer.from(JSON.parse(req.params.shared));
   aesCtr = new aesjs.ModeOfOperation.ctr(buf);
   var text =req.params.text;
