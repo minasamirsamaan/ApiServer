@@ -58,6 +58,7 @@ app.get('/register/:password', function(req, res) {
 app.get('/sharedKey/:serverPublic/:userPrivate', function(req, res) {
   var serverPublic = new Buffer.from(JSON.parse(req.params.serverPublic));
   var userPrivate = new Buffer.from(JSON.parse(req.params.userPrivate));
+  console.console.log(userPrivate);
   ecdh.setPrivateKey(userPrivate);
   sharedKey=ecdh.computeSecret(serverPublic);
   res.send(JSON.stringify(sharedKey));
