@@ -32,7 +32,7 @@ var sha512 = function(password, salt){
 };
 //Routes-----------------------------------------------------------------------------------------------------
 app.get('/', function(req, res) {
-  res.write("Hello, am Mina Samir's Security Api Server");
+  res.write("Hello, am Mina Samir's Bachelor Security Api Server");
   res.end();
 })
 
