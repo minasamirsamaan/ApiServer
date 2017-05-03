@@ -35,6 +35,10 @@ app.get('/', function(req, res) {
   res.write("Hello, am Mina Samir's Bachelor Security Api Server");
   res.end();
 })
+app.get('/rsaEncrypt/:serverPublic/:text', function(req, res) {
+var EncryptionResult = cryptico.encrypt(req.params.text, req.params.serverPublic);
+res.send(JSON.stringify(EncryptionResult));
+})
 
 app.get('/exchange/:serverAesPublic', function(req, res) {
   ecdh= crypto.createECDH('secp256k1');
