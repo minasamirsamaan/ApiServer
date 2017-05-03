@@ -58,7 +58,7 @@ res.send(JSON.stringify(sharedKey));
 
 })
 
-app.get('/exchange', function(req, res) {
+app.get('/generateKeys', function(req, res) {
   ecdh= crypto.createECDH('secp256k1');
   ecdh.generateKeys();
   var AesPublicKey = ecdh.getPublicKey(null,'compressed');
@@ -74,10 +74,9 @@ app.get('/exchange', function(req, res) {
 
 })
 
-app.get('/register/:password/:serverRsaPublic', function(req, res) {
+app.get('/register/:password', function(req, res) {
   var salt = genRandomString(16);
   var passwordData = sha512(req.params.password, salt);
-
   res.json({
     salt: salt,
     hash: passwordData.passwordHash,
