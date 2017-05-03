@@ -38,8 +38,24 @@ app.get('/', function(req, res) {
 app.get('/rsaEncrypt/:text', function(req, res) {
 var serverRsaKey ="gBEp6sYxb/tezOdhmub+WZIZSVYjd1CHQ589S9a4O8xv6gmk7bZY5wO5LTZ9cbVmJRkISzC1UlHEidip5vzM+SXlQdu4jn43S4MUv7ExGgwpgwK9Ng0iMEtxnAdJF7y41uVbk9JWHdsSSoZpcYplnaLgkvy9bmoDeQUu4VEK060=";
 var EncryptionResult = cryptico.encrypt(req.params.text, serverRsaKey);
-
 res.send(EncryptionResult.cipher);
+})
+app.get('/rsaDecrypt/:text', function(req, res) {
+var serverRsaKey ="";
+var EncryptionResult = cryptico.encrypt(req.params.text, serverRsaKey);
+res.send(EncryptionResult.cipher);
+})
+app.get('/getShared/:publicUser', function(req, res) {
+
+var ecdh = crypto.createECDH('secp256k1');
+var s = {"type": "Buffer", "data": [167,181,243,38,132,118,233,27,141,157,140,96,4,145,8,60,155,144,73,122,15,37,69,176,32,82,131,232,81,187,6,25]};
+var server_pr = new Buffer.from(s);
+ecdh.setPrivateKey(server_pr);
+var c = req.params.publicUser;
+console.log(c);
+var sharedKey = ecdh.computeSecret(new Buffer.from(JSON.parse(c)));
+res.send(JSON.stringify(sharedKey));
+
 })
 
 app.get('/exchange/:serverAesPublic', function(req, res) {
