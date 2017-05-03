@@ -35,10 +35,10 @@ app.get('/', function(req, res) {
   res.write("Hello, am Mina Samir's Bachelor Security Api Server");
   res.end();
 })
-app.get('/rsa/:serverPublic/:text', function(req, res) {
-console.log(req.params.serverPublic);
-var EncryptionResult = cryptico.encrypt(req.params.text, JSON.parse(req.params.serverPublic));
-res.send(EncryptionResult.cipher);
+app.get('/rsa', function(req, res) {
+//console.log(req.params.serverPublic);
+//var EncryptionResult = cryptico.encrypt(req.params.text,req.params.serverPublic);
+res.send("hi");
 })
 
 app.get('/exchange/:serverAesPublic', function(req, res) {
