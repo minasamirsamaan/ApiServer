@@ -35,10 +35,11 @@ app.get('/', function(req, res) {
   res.write("Hello, am Mina Samir's Bachelor Security Api Server");
   res.end();
 })
-app.get('/rsa/:serverKey', function(req, res) {
-//console.log(req.params.serverPublic);
-//var EncryptionResult = cryptico.encrypt(req.params.text,req.params.serverPublic);
-res.send("hi");
+app.get('/rsaEncrypt/:text', function(req, res) {
+var serverRsaKey ="gBEp6sYxb/tezOdhmub+WZIZSVYjd1CHQ589S9a4O8xv6gmk7bZY5wO5LTZ9cbVmJRkISzC1UlHEidip5vzM+SXlQdu4jn43S4MUv7ExGgwpgwK9Ng0iMEtxnAdJF7y41uVbk9JWHdsSSoZpcYplnaLgkvy9bmoDeQUu4VEK060=";
+var EncryptionResult = cryptico.encrypt(req.params.text, serverRsaKey);
+
+res.send(EncryptionResult.cipher);
 })
 
 app.get('/exchange/:serverAesPublic', function(req, res) {
