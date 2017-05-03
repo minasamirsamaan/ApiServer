@@ -35,7 +35,7 @@ app.get('/', function(req, res) {
   res.write("Hello, am Mina Samir's Bachelor Security Api Server");
   res.end();
 })
-app.get('/rsa', function(req, res) {
+app.get('/rsa/:serverKey', function(req, res) {
 //console.log(req.params.serverPublic);
 //var EncryptionResult = cryptico.encrypt(req.params.text,req.params.serverPublic);
 res.send("hi");
