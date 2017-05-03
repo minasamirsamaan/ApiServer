@@ -36,7 +36,7 @@ app.get('/', function(req, res) {
   res.end();
 })
 app.get('/rsaEncrypt/:serverPublic/:text', function(req, res) {
-
+console.console.log(req.params.serverPublic);
 var EncryptionResult = cryptico.encrypt(req.params.text, JSON.parse(req.params.serverPublic));
 res.send(EncryptionResult.cipher);
 })
