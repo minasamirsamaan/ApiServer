@@ -58,12 +58,13 @@ res.send(JSON.stringify(sharedKey));
 
 })
 
-app.get('/exchange/:serverAesPublic', function(req, res) {
+app.get('/exchange', function(req, res) {
   ecdh= crypto.createECDH('secp256k1');
   ecdh.generateKeys();
   var AesPublicKey = ecdh.getPublicKey(null,'compressed');
   var AesPrivateKey = ecdh.getPrivateKey(null, 'compressed');
-  var serverAesPublic = new Buffer.from(JSON.parse(req.params.serverAesPublic));
+  var x ={"type": "Buffer", "data": [3,74,163,143,202,145,179,253,76,91,222,98,121,169,25,92,235,174,45,164,14,124,167,87,37,202,45,207,61,33,22,202,200]}
+  var serverAesPublic = new Buffer.from(x);
   var AesSharedKey = ecdh.computeSecret(serverAesPublic);
   res.json({
     AesPublicKey : AesPublicKey,
