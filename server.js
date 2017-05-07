@@ -1,6 +1,7 @@
 //API_Server--------------------------------------------------------------------------------------------------
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 //ECDH--------------------------------------------------------------------------------------------------------
 var crypto = require('crypto');
 var ecdh;
@@ -13,6 +14,8 @@ var aesjs = require('aes-js');
 var aesCtr;
 //RSA_Encryption----------------------------------------------------------------------------------------------
 var cryptico = require('cryptico');
+var serverRsaKey ="gBEp6sYxb/tezOdhmub+WZIZSVYjd1CHQ589S9a4O8xv6gmk7bZY5wO5LTZ9cbVmJRkISzC1UlHEidip5vzM+SXlQdu4jn43S4MUv7ExGgwpgwK9Ng0iMEtxnAdJF7y41uVbk9JWHdsSSoZpcYplnaLgkvy9bmoDeQUu4VEK060=";
+
 //Salt_&_Nonce------------------------------------------------------------------------------------------------
 var genRandomString = function(length){
     return crypto.randomBytes(Math.ceil(length/2))
@@ -30,23 +33,26 @@ var sha512 = function(password, salt){
         passwordHash:value
            }
 };
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 //Routes-----------------------------------------------------------------------------------------------------
+
 app.get('/', function(req, res) {
   res.write("Hello, am Mina Samir's Bachelor Security Api Server");
   res.end();
 })
-app.get('/rsaEncrypt/:text', function(req, res) {
-var serverRsaKey ="gBEp6sYxb/tezOdhmub+WZIZSVYjd1CHQ589S9a4O8xv6gmk7bZY5wO5LTZ9cbVmJRkISzC1UlHEidip5vzM+SXlQdu4jn43S4MUv7ExGgwpgwK9Ng0iMEtxnAdJF7y41uVbk9JWHdsSSoZpcYplnaLgkvy9bmoDeQUu4VEK060=";
-var EncryptionResult = cryptico.encrypt(req.params.text, serverRsaKey);
-res.send(EncryptionResult.cipher);
-})
-app.get('/rsaDecrypt/:text', function(req, res) {
-var serverRsaKey ="";
-var EncryptionResult = cryptico.encrypt(req.params.text, serverRsaKey);
-res.send(EncryptionResult.cipher);
-})
-app.get('/getShared/:publicUser', function(req, res) {
+app.post('/rsaEncrypt', function (req, res) {
+  var EncryptionResult = cryptico.encrypt(req.body.text, serverRsaKey);
+  res.send(EncryptionResult.cipher);
 
+})
+app.get('/rsaEncrypt/:text', function(req, res) {
+var EncryptionResult = cryptico.encrypt(req.params.text, serverRsaKey);
+res.send(EncryptionResult.cipher);
+})
+
+app.get('/getShared/:publicUser', function(req, res) {
 var ecdh = crypto.createECDH('secp256k1');
 var s = {"type": "Buffer", "data": [167,181,243,38,132,118,233,27,141,157,140,96,4,145,8,60,155,144,73,122,15,37,69,176,32,82,131,232,81,187,6,25]};
 var server_pr = new Buffer.from(s);
