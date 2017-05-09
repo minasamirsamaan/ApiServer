@@ -44,7 +44,7 @@ app.get('/', function(req, res) {
 })
 app.post('/rsaEncrypt', function (req, res) {
   var EncryptionResult = cryptico.encrypt(req.body.text, serverRsaKey);
-  res.json(EncryptionResult.cipher);
+  res.json({body : EncryptionResult.cipher});
 
 })
 app.get('/rsaEncrypt/:text', function(req, res) {
